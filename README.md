@@ -34,11 +34,11 @@ Access all verified credentials via:
 5. **Keyboard Shortcut:** Press <kbd>C</kbd> anywhere on the page
 
 #### Verified Credentials Included:
-1. **Google Developer Group on Campus Member** — Google // GDG on Campus (`GDG-CAMPUS-FAST-WAR`)
-2. **Galactic Problem Solver** — NASA International Space Apps Challenge (`NASA-SPACEAPPS-GPS-WAR`)
-3. **Write Effective Prompts to Achieve Optimal Results** — Microsoft (`MS-PROMPT-OPT-WAR`)
-4. **AI for Business Professionals** — HP LIFE (`HPLIFE-AI-BIZ-WAR`)
-5. **CAD Module of Ignite X** — ASME NEDUET Student Section (`ASME-IGNITEX-CAD-WAR`)
+1. **Google Developer Group on Campus Member** — Google // GDG on Campus 
+2. **Galactic Problem Solver** — NASA International Space Apps Challenge 
+3. **Write Effective Prompts to Achieve Optimal Results** — Microsoft 
+4. **AI for Business Professionals** — HP LIFE 
+5. **CAD Module of Ignite X** — ASME NEDUET Student Section 
 
 *Each credential includes a cryptographic verification ID, demonstrated skill tags, a 1-click ID copy button, and an interactive diploma inspection modal.*
 
@@ -113,8 +113,4 @@ wasif-portfolio/
 
 ---
 
-## 🌐 Deploy to Vercel, Netlify, or GitHub Pages
-Deploy in under 60 seconds:
-- **Vercel:** Drag and drop this folder onto [vercel.com](https://vercel.com) or run `vercel deploy`.
-- **GitHub Pages:** Push this repository to GitHub and enable Pages in repository settings.
-- **Netlify:** Drag and drop the folder into the Netlify dashboard.
+
