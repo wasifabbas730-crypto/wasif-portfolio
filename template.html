@@ -1,0 +1,2385 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Syed Wasif Abbas Rizvi // Electrical Engineering & Tech Portfolio</title>
+  <meta name="description" content="Syed Wasif Abbas Rizvi — Electrical Engineering Student at FAST-NUCES (2025-2029). Explore verified certificates from NASA Space Apps, Google GDG, Microsoft, HP LIFE, and ASME.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Three.js from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    :root {
+      --bg-pitch: #000000;
+      --bg-cyber: #050507;
+      --bg-card: rgba(12, 12, 16, 0.72);
+      --bg-card-hover: rgba(18, 18, 24, 0.85);
+      --neon-green: #00ff66;
+      --neon-bright: #39ff14;
+      --neon-emerald: #05df60;
+      --neon-glow: rgba(0, 255, 102, 0.18);
+      --neon-border: rgba(255, 255, 255, 0.09);
+      --neon-border-bright: rgba(0, 255, 102, 0.45);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font-display: 'Syne', sans-serif;
+      --font-tech: 'Space Grotesk', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-pitch);
+      color: var(--text-main);
+      font-family: var(--font-tech);
+      overflow-x: hidden;
+      line-height: 1.6;
+      position: relative;
+    }
+
+    ::selection {
+      background: var(--neon-green);
+      color: #000;
+    }
+
+    /* Subtle Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #020204;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--neon-green);
+    }
+
+    /* Scanlines and Noise FX */
+    .scanlines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.01), rgba(0, 255, 0, 0.008), rgba(0, 0, 255, 0.01));
+      background-size: 100% 3px, 6px 100%;
+      pointer-events: none;
+      z-index: 99;
+      opacity: 0.35;
+    }
+
+    /* 3D WebGL Canvas Container */
+    #wave-canvas-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: auto;
+    }
+
+    /* Content Overlay Layer */
+    .content-overlay {
+      position: relative;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .interactive-element {
+      pointer-events: auto;
+    }
+
+    /* Typography Utilities */
+    .font-mono { font-family: var(--font-mono); }
+    .font-display { font-family: var(--font-display); }
+    .font-tech { font-family: var(--font-tech); }
+
+    .neon-text {
+      color: var(--neon-green);
+      text-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
+    }
+
+    .neon-border-box {
+      border: 1px solid var(--neon-border);
+      background: var(--bg-card);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.7);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .neon-border-box:hover {
+      border-color: var(--neon-border-bright);
+      box-shadow: 0 12px 35px rgba(0, 255, 102, 0.12);
+      transform: translateY(-2px);
+    }
+
+    /* Buttons */
+    .btn-cyber-primary {
+      background: var(--neon-green);
+      color: #000000;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.8rem 1.5rem;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      border: 1px solid var(--neon-green);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 18px rgba(0, 255, 102, 0.35);
+      position: relative;
+    }
+
+    .btn-cyber-primary:hover {
+      background: #39ff14;
+      box-shadow: 0 0 28px rgba(0, 255, 102, 0.6);
+      transform: translateY(-2px);
+      color: #000;
+    }
+
+    .btn-cyber-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      color: #e2e8f0;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.8rem 1.4rem;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-cyber-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    /* Radar Pulse Dot */
+    .radar-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--neon-green);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--neon-green);
+      animation: pulse-dot 2s infinite;
+      display: inline-block;
+    }
+
+    @keyframes pulse-dot {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 102, 0.6); }
+      70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(0, 255, 102, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 102, 0); }
+    }
+
+    /* Container */
+    .cyber-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Navigation Bar */
+    header.cyber-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 80;
+      background: rgba(4, 4, 6, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .brand-symbol {
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 4px;
+    }
+
+    .brand-text {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #94a3b8;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: #ffffff;
+    }
+
+    .nav-cta-group {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    /* Header Certificates Button */
+    .btn-header-certs {
+      background: rgba(0, 255, 102, 0.08);
+      border: 1px solid var(--neon-border-bright);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+
+    .btn-header-certs:hover {
+      background: var(--neon-green);
+      color: #000;
+      border-color: var(--neon-green);
+      box-shadow: 0 0 18px rgba(0, 255, 102, 0.5);
+    }
+
+    .badge-counter {
+      background: #000;
+      color: var(--neon-green);
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 255, 102, 0.4);
+      font-weight: 800;
+    }
+
+    .btn-header-certs:hover .badge-counter {
+      background: #000;
+      color: #fff;
+      border-color: #000;
+    }
+
+    /* Wave Controls Floating HUD */
+    .wave-hud {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      z-index: 60;
+      background: rgba(10, 10, 14, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(14px);
+      border-radius: 6px;
+      padding: 0.65rem 0.95rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+    }
+
+    .wave-hud-title {
+      color: #cbd5e1;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .hud-control {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #94a3b8;
+    }
+
+    .hud-slider {
+      accent-color: var(--neon-green);
+      cursor: pointer;
+      width: 65px;
+    }
+
+    .hud-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
+      padding: 3px 8px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 0.7rem;
+      transition: all 0.2s ease;
+    }
+
+    .hud-btn:hover, .hud-btn.active {
+      background: var(--neon-green);
+      color: #000;
+      border-color: var(--neon-green);
+    }
+
+    /* Floating Quick Badges Dock */
+    .floating-badges-dock {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 60;
+    }
+
+    .btn-dock-badges {
+      background: #060608;
+      border: 1px solid rgba(0, 255, 102, 0.5);
+      color: #fff;
+      padding: 0.75rem 1.3rem;
+      border-radius: 50px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(0, 255, 102, 0.25);
+      transition: all 0.25s ease;
+    }
+
+    .btn-dock-badges:hover {
+      background: var(--neon-green);
+      color: #000;
+      box-shadow: 0 0 30px rgba(0, 255, 102, 0.6);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section */
+    section.hero-section {
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding-top: 100px;
+      padding-bottom: 50px;
+    }
+
+    .hero-meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.35rem 0.85rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #cbd5e1;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.6rem, 6vw, 4.8rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+
+    .hero-roles {
+      font-family: var(--font-mono);
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      color: #cbd5e1;
+      margin-bottom: 1.5rem;
+      min-height: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .typed-cursor {
+      animation: blink 0.8s infinite;
+      color: var(--neon-green);
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .hero-description {
+      font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+      color: #94a3b8;
+      max-width: 650px;
+      margin-bottom: 2.2rem;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 3rem;
+    }
+
+    .hero-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 1rem;
+      max-width: 820px;
+    }
+
+    .stat-card {
+      background: rgba(12, 12, 16, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 1.1rem;
+      border-radius: 4px;
+      backdrop-filter: blur(8px);
+    }
+
+    .stat-number {
+      font-family: var(--font-mono);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.1;
+      margin-bottom: 0.35rem;
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Section Styling */
+    section.portfolio-section {
+      padding: 90px 0;
+      position: relative;
+    }
+
+    .section-header {
+      margin-bottom: 3rem;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: #94a3b8;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-eyebrow::before {
+      content: '//';
+      color: var(--neon-green);
+      font-weight: 700;
+    }
+
+    .section-heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+
+    /* Certificates & Badges Modal Vault */
+    .certs-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .certs-modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .certs-modal-container {
+      background: #08080b;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
+      border-radius: 8px;
+      width: 100%;
+      max-width: 1040px;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: scale(0.96);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .certs-modal-backdrop.active .certs-modal-container {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      padding: 1.4rem 1.8rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(14, 14, 18, 0.95);
+    }
+
+    .modal-header-info h3 {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.2rem;
+    }
+
+    .modal-header-info p {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: #94a3b8;
+    }
+
+    .btn-modal-close {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-modal-close:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    .modal-filter-bar {
+      padding: 0.9rem 1.8rem;
+      background: rgba(8, 8, 10, 0.8);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .cert-filter-btn {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 0.35rem 0.8rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #cbd5e1;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .cert-filter-btn:hover, .cert-filter-btn.active {
+      background: var(--neon-green);
+      color: #000;
+      border-color: var(--neon-green);
+      font-weight: 700;
+    }
+
+    .modal-body-scroll {
+      padding: 1.8rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .cert-card {
+      background: rgba(14, 14, 18, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 6px;
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+    }
+
+    .cert-card:hover {
+      border-color: rgba(0, 255, 102, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .cert-badge-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .cert-card-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.3rem;
+    }
+
+    .cert-issuer {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: #94a3b8;
+      margin-bottom: 0.7rem;
+    }
+
+    .cert-meta {
+      font-size: 0.82rem;
+      color: #94a3b8;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .cert-id-tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 4px 8px;
+      border-radius: 3px;
+      color: #cbd5e1;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-copy-id {
+      background: none;
+      border: none;
+      color: var(--neon-green);
+      cursor: pointer;
+      font-size: 0.72rem;
+    }
+
+    .btn-inspect-cert {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #e2e8f0;
+      padding: 0.45rem 0.9rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      width: 100%;
+      transition: all 0.2s ease;
+    }
+
+    .btn-inspect-cert:hover {
+      background: #ffffff;
+      color: #000;
+      border-color: #ffffff;
+    }
+
+    /* Certificate Preview Modal */
+    .cert-preview-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.94);
+      z-index: 1100;
+      opacity: 0;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .cert-preview-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .cert-diploma-box {
+      background: #0a0a0d;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      padding: 2.8rem 2.2rem;
+      max-width: 680px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
+    }
+
+    .diploma-seal {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 1.3rem;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 255, 102, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      background: rgba(0, 255, 102, 0.05);
+    }
+
+    /* Interactive Cyber Terminal */
+    .terminal-window {
+      background: #07070a;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+      border-radius: 6px;
+      overflow: hidden;
+      font-family: var(--font-mono);
+    }
+
+    .terminal-topbar {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.6rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .terminal-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .terminal-dot.active {
+      background: var(--neon-green);
+    }
+
+    .terminal-title {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      letter-spacing: 0.04em;
+    }
+
+    .terminal-body {
+      padding: 1.4rem;
+      min-height: 280px;
+      max-height: 380px;
+      overflow-y: auto;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    .terminal-line {
+      margin-bottom: 0.35rem;
+    }
+
+    .terminal-prompt {
+      color: var(--neon-green);
+      font-weight: 700;
+    }
+
+    .terminal-input-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.6rem;
+    }
+
+    .terminal-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      flex: 1;
+    }
+
+    .terminal-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.8rem;
+    }
+
+    .terminal-chip {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #cbd5e1;
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .terminal-chip:hover {
+      background: var(--neon-green);
+      color: #000;
+      border-color: var(--neon-green);
+    }
+
+    /* Cards Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .info-card {
+      background: rgba(12, 12, 16, 0.75);
+      border: 1px solid var(--neon-border);
+      border-radius: 6px;
+      padding: 1.6rem;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .info-card:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .card-icon {
+      font-size: 1.6rem;
+      margin-bottom: 0.75rem;
+      display: inline-block;
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.35rem;
+    }
+
+    .card-subtitle {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: #94a3b8;
+      margin-bottom: 0.85rem;
+    }
+
+    .card-body {
+      color: #94a3b8;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .tech-pill {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #cbd5e1;
+      padding: 0.2rem 0.55rem;
+      border-radius: 3px;
+      display: inline-block;
+      margin-top: 0.8rem;
+    }
+
+    /* Timeline */
+    .timeline-wrap {
+      position: relative;
+      max-width: 820px;
+      margin: 0 auto;
+      padding-left: 2rem;
+    }
+
+    .timeline-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 7px;
+      height: 100%;
+      width: 2px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2.5rem;
+    }
+
+    .timeline-node {
+      position: absolute;
+      left: -2rem;
+      top: 5px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #000;
+      border: 2px solid var(--neon-green);
+    }
+
+    .timeline-content {
+      background: rgba(12, 12, 16, 0.75);
+      border: 1px solid var(--neon-border);
+      border-radius: 6px;
+      padding: 1.5rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .timeline-date {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #94a3b8;
+      margin-bottom: 0.35rem;
+    }
+
+    .timeline-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-institution {
+      color: #94a3b8;
+      font-size: 0.88rem;
+      margin-bottom: 0.7rem;
+    }
+
+    /* Clean Centered Contact Cards (Form Removed) */
+    .contact-channels-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .contact-card-box {
+      background: rgba(12, 12, 16, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 2rem 1.8rem;
+      text-align: center;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .contact-card-box:hover {
+      border-color: rgba(0, 255, 102, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .channel-circle-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: #ffffff;
+      margin-bottom: 1.2rem;
+    }
+
+    .channel-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.4rem;
+    }
+
+    .channel-value {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: #94a3b8;
+      margin-bottom: 1.5rem;
+      word-break: break-all;
+    }
+
+    .channel-action-btn {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      padding: 0.6rem 1rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .channel-action-btn:hover {
+      background: var(--neon-green);
+      color: #000000;
+      border-color: var(--neon-green);
+    }
+
+    footer.cyber-footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 2.2rem 0;
+      background: #030305;
+      position: relative;
+      z-index: 20;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    /* Toast Notification */
+    .toast-box {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #0c0c10;
+      border: 1px solid rgba(0, 255, 102, 0.5);
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+      color: #ffffff;
+      padding: 0.75rem 1.6rem;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 600;
+      z-index: 2000;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .toast-box.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Mobile Hamburger */
+    .btn-mobile-menu {
+      display: none;
+      background: none;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 0.4rem 0.7rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+    }
+
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .btn-mobile-menu { display: block; }
+      .wave-hud { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cybernetic Scanlines -->
+  <div class="scanlines"></div>
+
+  <!-- 3D Three.js Wave Canvas -->
+  <div id="wave-canvas-container"></div>
+
+  <!-- Interactive 3D Wave Flow HUD Controls -->
+  <div class="wave-hud interactive-element">
+    <div class="wave-hud-title">
+      <span class="radar-dot"></span>
+      3D WAVE FLOW
+    </div>
+    <div class="hud-control">
+      <span>SPEED:</span>
+      <input type="range" id="slider-wave-speed" class="hud-slider" min="0.2" max="2.5" step="0.1" value="1.0">
+    </div>
+    <div class="hud-control">
+      <span>WAVE:</span>
+      <input type="range" id="slider-wave-height" class="hud-slider" min="0.1" max="1.0" step="0.05" value="0.45">
+    </div>
+    <button id="btn-toggle-wireframe" class="hud-btn">WIREFRAME</button>
+    <button id="btn-reset-cam" class="hud-btn">RESET</button>
+  </div>
+
+  <!-- Floating Quick-Access Badges Dock Pill -->
+  <div class="floating-badges-dock interactive-element">
+    <button id="btn-dock-open-certs" class="btn-dock-badges">
+      <span>✦</span>
+      <span>CERTIFICATES & BADGES</span>
+      <span class="badge-counter">5</span>
+    </button>
+  </div>
+
+  <!-- Content Layer -->
+  <div class="content-overlay">
+
+    <!-- Header Navigation -->
+    <header class="cyber-nav interactive-element">
+      <div class="cyber-container">
+        <div class="nav-inner">
+          <a href="#" class="brand-logo">
+            <div class="brand-symbol">W</div>
+            <div class="brand-text">
+              WASIF<span class="neon-text">.RIZVI</span>
+            </div>
+          </a>
+
+          <ul class="nav-links">
+            <li><a href="#about">// 01. ABOUT</a></li>
+            <li><a href="#certificates">// 02. CERTIFICATES</a></li>
+            <li><a href="#experience">// 03. EXPERIENCE</a></li>
+            <li><a href="#education">// 04. EDUCATION</a></li>
+            <li><a href="#terminal">// 05. TERMINAL</a></li>
+            <li><a href="#contact">// 06. CONTACT</a></li>
+          </ul>
+
+          <div class="nav-cta-group">
+            <!-- SEPARATE BUTTON TO ACCESS CERTIFICATES AND BADGES -->
+            <button id="btn-header-open-certs" class="btn-header-certs">
+              <span>🎖</span>
+              <span>CERTIFICATES & BADGES</span>
+              <span class="badge-counter">5</span>
+            </button>
+
+            <!-- Audio FX Toggle -->
+            <button id="btn-audio-toggle" class="hud-btn" title="Toggle UI sound effects">
+              🔊 FX: ON
+            </button>
+
+            <button id="btn-mobile-toggle" class="btn-mobile-menu">☰ MENU</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="cyber-container">
+        <div class="hero-meta-pill interactive-element">
+          <span class="radar-dot"></span>
+          <span>STUDENT // ELECTRICAL ENGINEERING // FAST-NUCES (2025–2029)</span>
+        </div>
+
+        <h1 class="hero-title">
+          SYED WASIF<br>
+          <span class="neon-text">ABBAS RIZVI</span>
+        </h1>
+
+        <div class="hero-roles">
+          <span style="color: var(--neon-green); font-weight: bold;">&gt; </span>
+          <span id="typed-role-text">Student @ FAST-NUCES</span>
+          <span class="typed-cursor">_</span>
+        </div>
+
+        <p class="hero-description">
+          Electrical Engineering student at FAST-NUCES (expected graduation 2029). Focused on circuit engineering, AI prompt engineering, CAD modeling, community initiatives, and collaborative technical problem solving.
+        </p>
+
+        <div class="hero-actions interactive-element">
+          <!-- SEPARATE BUTTON IN HERO TO ACCESS ALL CERTIFICATES & BADGES -->
+          <button id="btn-hero-open-certs" class="btn-cyber-primary">
+            <span>🎖</span>
+            <span>ACCESS CERTIFICATES & BADGES (5)</span>
+          </button>
+
+          <a href="#experience" class="btn-cyber-secondary">
+            <span>👥</span>
+            <span>EXPERIENCE & ACTIVITIES</span>
+          </a>
+
+          <a href="#terminal" class="btn-cyber-secondary">
+            <span>&gt;_</span>
+            <span>LAUNCH TERMINAL</span>
+          </a>
+        </div>
+
+        <div class="hero-stats-grid interactive-element">
+          <div class="stat-card">
+            <div class="stat-number">FAST-NUCES</div>
+            <div class="stat-label">Electrical Eng (2025–2029)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">5 Verified</div>
+            <div class="stat-label">Industry & Global Badges</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">3 Roles</div>
+            <div class="stat-label">Procom & Volunteer Orgs</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">DJ Science</div>
+            <div class="stat-label">Pre-Engineering (2023–2025)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="portfolio-section">
+      <div class="cyber-container">
+        <div class="section-header">
+          <div class="section-eyebrow">ABOUT ME</div>
+          <h2 class="section-heading">ACADEMIC JOURNEY &<br><span class="neon-text">TECHNICAL ASPIRATIONS</span></h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.8rem;" class="interactive-element">
+          <div class="neon-border-box" style="padding: 2.2rem; border-radius: 8px;">
+            <h3 style="font-family: var(--font-display); font-size: 1.4rem; margin-bottom: 0.9rem; color: #fff;">Student at FAST-NUCES</h3>
+            <p style="color: #cbd5e1; margin-bottom: 1.2rem; line-height: 1.7; font-size: 0.95rem;">
+              I am an undergraduate student pursuing my Bachelor's in <strong>Electrical Engineering</strong> at <strong>FAST-NUCES</strong> (National University of Computer and Emerging Sciences), with an expected graduation in <strong>2029</strong>.
+            </p>
+            <p style="color: #94a3b8; line-height: 1.7; font-size: 0.92rem;">
+              My academic interests span electrical systems, computer-aided design (CAD), modern artificial intelligence applications, and prompt engineering paradigms.
+            </p>
+          </div>
+
+          <div class="neon-border-box" style="padding: 2.2rem; border-radius: 8px;">
+            <h3 style="font-family: var(--font-display); font-size: 1.4rem; margin-bottom: 0.9rem; color: #fff;">Leadership & Community Impact</h3>
+            <p style="color: #cbd5e1; margin-bottom: 1.2rem; line-height: 1.7; font-size: 0.95rem;">
+              Beyond the classroom, I am deeply involved in campus community and social causes—serving as a member at <strong>Procom</strong>, volunteering with the <strong>Circle Social Foundation</strong>, and teaching youth at <strong>Shaheen Public Secondary School</strong>.
+            </p>
+            <p style="color: #94a3b8; line-height: 1.7; font-size: 0.92rem;">
+              Recognized with global honors including the <strong>NASA International Space Apps Challenge (Galactic Problem Solver)</strong>, alongside credentials from <strong>Google (GDG on Campus)</strong>, <strong>Microsoft</strong>, <strong>HP LIFE</strong>, and <strong>ASME NEDUET</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certificates & Badges Direct Section -->
+    <section id="certificates" class="portfolio-section">
+      <div class="cyber-container">
+        <div class="section-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1.5rem;">
+          <div>
+            <div class="section-eyebrow">VERIFIED HONORS & CREDENTIALS</div>
+            <h2 class="section-heading">CERTIFICATES &<br><span class="neon-text">INDUSTRY BADGES</span></h2>
+          </div>
+          <button id="btn-section-open-certs" class="btn-cyber-primary interactive-element">
+            <span>🎖</span>
+            <span>OPEN CERTIFICATE VAULT (5)</span>
+          </button>
+        </div>
+
+        <div class="cards-grid interactive-element">
+          <!-- Cert 1 -->
+          <div class="info-card">
+            <div class="card-icon">🌐</div>
+            <h3 class="card-title">Google Developer Group Member</h3>
+            <div class="card-subtitle">Google // GDG on Campus</div>
+            <p class="card-body">
+              Official member of the Google Developer Group on Campus, participating in developer workshops, tech outreach, and Google ecosystem collaborative sessions.
+            </p>
+            <span class="tech-pill">Community & Google Technologies</span>
+          </div>
+
+          <!-- Cert 2 -->
+          <div class="info-card">
+            <div class="card-icon">🚀</div>
+            <h3 class="card-title">Galactic Problem Solver</h3>
+            <div class="card-subtitle">NASA International Space Apps Challenge</div>
+            <p class="card-body">
+              Global hackathon recognition awarded by the NASA International Space Apps Challenge for creative, collaborative problem-solving using space telemetry data.
+            </p>
+            <span class="tech-pill">Space Data & Global Innovation</span>
+          </div>
+
+          <!-- Cert 3 -->
+          <div class="info-card">
+            <div class="card-icon">⚡</div>
+            <h3 class="card-title">Prompt Engineering Optimization</h3>
+            <div class="card-subtitle">Microsoft</div>
+            <p class="card-body">
+              Certification in "Write Effective Prompts to Achieve Optimal Results", mastering context framing, prompt structuring, and generative AI utilization.
+            </p>
+            <span class="tech-pill">Generative AI & Prompt Engineering</span>
+          </div>
+
+          <!-- Cert 4 -->
+          <div class="info-card">
+            <div class="card-icon">🤖</div>
+            <h3 class="card-title">AI for Business Professionals</h3>
+            <div class="card-subtitle">HP LIFE</div>
+            <p class="card-body">
+              Validated training on applying artificial intelligence principles to optimize workflows, strategic business automation, and data decision-making.
+            </p>
+            <span class="tech-pill">Applied AI & Business Intelligence</span>
+          </div>
+
+          <!-- Cert 5 -->
+          <div class="info-card">
+            <div class="card-icon">⚙️</div>
+            <h3 class="card-title">CAD Module of Ignite X</h3>
+            <div class="card-subtitle">ASME NEDUET Student Section</div>
+            <p class="card-body">
+              Completed the specialized Computer-Aided Design (CAD) module of Ignite X, demonstrating competency in engineering modeling and 3D drafting.
+            </p>
+            <span class="tech-pill">Computer-Aided Design (CAD)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience & Volunteering Section -->
+    <section id="experience" class="portfolio-section">
+      <div class="cyber-container">
+        <div class="section-header">
+          <div class="section-eyebrow">COMMUNITY & EXTRACURRICULAR</div>
+          <h2 class="section-heading">EXPERIENCE &<br><span class="neon-text">VOLUNTEER INITIATIVES</span></h2>
+        </div>
+
+        <div class="cards-grid interactive-element">
+          <!-- Exp 1 -->
+          <div class="info-card">
+            <div class="card-icon">💻</div>
+            <h3 class="card-title">Member at Procom</h3>
+            <div class="card-subtitle">FAST-NUCES Flagship Event</div>
+            <p class="card-body">
+              Active member at Procom, the premier national computing and engineering competition hosted by FAST-NUCES. Contributing to organizational operations, event coordination, and participant engagement.
+            </p>
+            <span class="tech-pill">Campus Event Operations & Leadership</span>
+          </div>
+
+          <!-- Exp 2 -->
+          <div class="info-card">
+            <div class="card-icon">🤝</div>
+            <h3 class="card-title">Volunteer at Circle Social Foundation</h3>
+            <div class="card-subtitle">Social Welfare & Empowerment</div>
+            <p class="card-body">
+              Dedicated volunteer assisting with social foundation initiatives, community welfare drives, and outreach programs aimed at making a tangible social impact.
+            </p>
+            <span class="tech-pill">Community Outreach & Social Impact</span>
+          </div>
+
+          <!-- Exp 3 -->
+          <div class="info-card">
+            <div class="card-icon">📚</div>
+            <h3 class="card-title">Volunteer Teacher</h3>
+            <div class="card-subtitle">Shaheen Public Secondary School</div>
+            <p class="card-body">
+              Volunteering to teach and mentor students in science and mathematics, strengthening youth education, foundational understanding, and academic curiosity.
+            </p>
+            <span class="tech-pill">Education & Youth Mentorship</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="portfolio-section">
+      <div class="cyber-container">
+        <div class="section-header">
+          <div class="section-eyebrow">ACADEMIC BACKGROUND</div>
+          <h2 class="section-heading">EDUCATION &<br><span class="neon-text">INSTITUTIONS</span></h2>
+        </div>
+
+        <div class="timeline-wrap interactive-element">
+          <!-- FAST-NUCES -->
+          <div class="timeline-item">
+            <div class="timeline-node"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">2025 — 2029 (EXPECTED GRADUATION)</div>
+              <h3 class="timeline-title">Bachelor of Science in Electrical Engineering</h3>
+              <div class="timeline-institution">FAST-NUCES (National University of Computer and Emerging Sciences)</div>
+              <p style="color: #cbd5e1; font-size: 0.92rem; line-height: 1.65;">
+                Undergraduate degree covering electrical circuit analysis, engineering computation, digital systems, signals, and electromagnetics at one of Pakistan's top-tier technological universities.
+              </p>
+            </div>
+          </div>
+
+          <!-- DJ Science College -->
+          <div class="timeline-item">
+            <div class="timeline-node"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">2023 — 2025</div>
+              <h3 class="timeline-title">Intermediate in Pre-Engineering</h3>
+              <div class="timeline-institution">DJ Sindh Government Science College, Karachi</div>
+              <p style="color: #cbd5e1; font-size: 0.92rem; line-height: 1.65;">
+                Rigorous higher secondary education in Advanced Mathematics, Theoretical Physics, and Analytical Science at a historic center of academic excellence.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Cyber Terminal Section -->
+    <section id="terminal" class="portfolio-section">
+      <div class="cyber-container">
+        <div class="section-header">
+          <div class="section-eyebrow">COMMAND LINE INTERFACE</div>
+          <h2 class="section-heading">WASIF-OS<br><span class="neon-text">INTERACTIVE TERMINAL</span></h2>
+        </div>
+
+        <div class="terminal-window interactive-element">
+          <div class="terminal-topbar">
+            <div class="terminal-dots">
+              <div class="terminal-dot active"></div>
+              <div class="terminal-dot"></div>
+              <div class="terminal-dot"></div>
+            </div>
+            <div class="terminal-title">wasif_abbas_rizvi@fast-nuces:~ (v2.6)</div>
+            <div style="font-size: 0.72rem; color: #94a3b8;">SYSTEM: READY</div>
+          </div>
+
+          <div id="terminal-body" class="terminal-body">
+            <div class="terminal-line" style="color: #cbd5e1;">
+              [SYSTEM INITIALIZATION COMPLETE // SYED WASIF ABBAS RIZVI OS READY]
+            </div>
+            <div class="terminal-line" style="color: #94a3b8;">
+              Type <span style="color: #fff; font-weight: bold;">help</span> to inspect available system commands, or click any quick command chip below:
+            </div>
+          </div>
+
+          <div style="padding: 0.75rem 1.4rem; background: rgba(0, 0, 0, 0.5); border-top: 1px solid rgba(255, 255, 255, 0.08);">
+            <div class="terminal-input-row">
+              <span class="terminal-prompt">wasif@fast:~$</span>
+              <input type="text" id="terminal-input" class="terminal-input" placeholder="Type command here (e.g. 'certs', 'education', 'bio')..." autocomplete="off">
+            </div>
+
+            <div class="terminal-chips">
+              <button class="terminal-chip" data-cmd="help">help</button>
+              <button class="terminal-chip" data-cmd="certs">certs (Open Vault)</button>
+              <button class="terminal-chip" data-cmd="education">education</button>
+              <button class="terminal-chip" data-cmd="experience">experience</button>
+              <button class="terminal-chip" data-cmd="bio">bio</button>
+              <button class="terminal-chip" data-cmd="matrix">matrix_fx</button>
+              <button class="terminal-chip" data-cmd="contact">contact</button>
+              <button class="terminal-chip" data-cmd="clear">clear</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section (Form Removed, Clean Centered Direct Channels) -->
+    <section id="contact" class="portfolio-section">
+      <div class="cyber-container">
+        <div class="section-header" style="text-align: center; max-width: 700px; margin-left: auto; margin-right: auto;">
+          <div class="section-eyebrow" style="justify-content: center;">INITIATE TRANSMISSION</div>
+          <h2 class="section-heading">GET IN TOUCH &<br><span class="neon-text">CONNECT</span></h2>
+          <p style="color: #94a3b8; font-size: 0.95rem; margin-top: 0.75rem;">
+            Looking to connect for engineering discussions, campus initiatives, or collaborative opportunities? Reach out directly through any of my verified channels:
+          </p>
+        </div>
+
+        <div class="contact-channels-grid interactive-element">
+          <!-- Email Card -->
+          <div class="contact-card-box">
+            <div class="channel-circle-icon">✉</div>
+            <h3 class="channel-title">Direct Email</h3>
+            <p class="channel-value">wasifabbas730@gmail.com</p>
+            <a href="mailto:wasifabbas730@gmail.com" class="channel-action-btn">
+              <span>SEND EMAIL</span> ▹
+            </a>
+          </div>
+
+          <!-- LinkedIn Card -->
+          <div class="contact-card-box">
+            <div class="channel-circle-icon">in</div>
+            <h3 class="channel-title">LinkedIn Profile</h3>
+            <p class="channel-value">linkedin.com/in/syed-wasif-abbas-rizvi</p>
+            <a href="https://www.linkedin.com/in/syed-wasif-abbas-rizvi" target="_blank" rel="noopener noreferrer" class="channel-action-btn">
+              <span>VIEW PROFILE</span> ▹
+            </a>
+          </div>
+
+          <!-- GitHub Card -->
+          <div class="contact-card-box">
+            <div class="channel-circle-icon">⌥</div>
+            <h3 class="channel-title">GitHub Profile</h3>
+            <p class="channel-value">github.com/wasifabbas730-crypto</p>
+            <a href="https://github.com/me50/wasifabbas730-crypto" target="_blank" rel="noopener noreferrer" class="channel-action-btn">
+              <span>EXPLORE REPOS</span> ▹
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cyber Footer -->
+    <footer class="cyber-footer">
+      <div class="cyber-container">
+        <div class="footer-inner">
+          <div style="font-family: var(--font-mono); font-size: 0.82rem; color: #94a3b8;">
+            © 2026 <span style="color: #fff; font-weight: 600;">SYED WASIF ABBAS RIZVI</span> // FAST-NUCES (2025–2029).
+          </div>
+
+          <div style="display: flex; gap: 1.5rem; font-family: var(--font-mono); font-size: 0.8rem;">
+            <a href="https://github.com/me50/wasifabbas730-crypto" target="_blank" rel="noopener noreferrer" style="color: #cbd5e1; text-decoration: none;">GITHUB</a>
+            <a href="https://www.linkedin.com/in/syed-wasif-abbas-rizvi" target="_blank" rel="noopener noreferrer" style="color: #cbd5e1; text-decoration: none;">LINKEDIN</a>
+            <a href="mailto:wasifabbas730@gmail.com" style="color: #cbd5e1; text-decoration: none;">EMAIL</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ========================================== -->
+  <!-- DEDICATED CERTIFICATES & BADGES MODAL VAULT -->
+  <!-- ========================================== -->
+  <div id="certs-modal" class="certs-modal-backdrop">
+    <div class="certs-modal-container">
+      <div class="modal-header">
+        <div class="modal-header-info">
+          <h3>CREDENTIAL & BADGE VAULT</h3>
+          <p>// SYED WASIF ABBAS RIZVI // VERIFIED HONORS & CERTIFICATIONS</p>
+        </div>
+        <button id="btn-close-certs" class="btn-modal-close" title="Close vault">✕</button>
+      </div>
+
+      <div class="modal-filter-bar">
+        <button class="cert-filter-btn active" data-filter="all">ALL BADGES (5)</button>
+        <button class="cert-filter-btn" data-filter="ai">AI & PROMPT ENGINEERING (2)</button>
+        <button class="cert-filter-btn" data-filter="engineering">ENGINEERING & CAD (1)</button>
+        <button class="cert-filter-btn" data-filter="innovation">GLOBAL CHALLENGES & TECH (2)</button>
+      </div>
+
+      <div class="modal-body-scroll">
+        <div id="certs-cards-container" class="certs-grid">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Diploma / Certificate Inspection Modal -->
+  <div id="cert-preview-modal" class="cert-preview-backdrop">
+    <div class="cert-diploma-box">
+      <button id="btn-close-preview" style="position: absolute; top: 18px; right: 20px; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer;">✕</button>
+      
+      <div class="diploma-seal">🎖</div>
+      
+      <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #94a3b8; letter-spacing: 0.15em; margin-bottom: 0.5rem;">
+        CERTIFICATE OF VERIFIED ACHIEVEMENT
+      </div>
+
+      <h2 id="diploma-title" style="font-family: var(--font-display); font-size: 1.7rem; color: #fff; margin-bottom: 0.75rem;">
+        Galactic Problem Solver
+      </h2>
+
+      <p style="font-size: 0.92rem; color: #cbd5e1; margin-bottom: 1.4rem;">
+        This credential certifies that <strong style="color: #fff;">Syed Wasif Abbas Rizvi</strong> has successfully completed all qualification criteria and demonstrated excellence.
+      </p>
+
+      <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 6px; padding: 1.1rem; margin-bottom: 1.6rem; text-align: left; font-family: var(--font-mono); font-size: 0.8rem;">
+        <div style="margin-bottom: 0.25rem;">ISSUED BY: <span id="diploma-issuer" style="color: #fff; font-weight: bold;">NASA Space Apps</span></div>
+        <div style="margin-bottom: 0.25rem;">VERIFICATION ID: <span id="diploma-id" style="color: var(--neon-green);">NASA-SPACEAPPS-GPS-WAR</span></div>
+        <div>STATUS: <span style="color: var(--neon-green);">CRYPTOGRAPHICALLY VERIFIED ✓</span></div>
+      </div>
+
+      <button id="btn-diploma-copy" class="btn-cyber-primary" style="margin: 0 auto;">
+        <span>📋</span> COPY VERIFICATION LINK
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast-box">
+    <span style="color: var(--neon-green);">✓</span>
+    <span id="toast-text">Credential ID Copied to Clipboard!</span>
+  </div>
+
+  <!-- Audio Synthesis Script + Three.js 3D Wave Flow Engine -->
+  <script>
+    // Embedded user-provided wave texture data URI
+    const WAVE_TEXTURE_DATA_URI = "__WAVE_B64_PLACEHOLDER__";
+
+    /* ========================================================
+       1. WEB AUDIO API SYNTHESIZER (Cyber UI sound effects)
+       ======================================================== */
+    let audioContext = null;
+    let audioEnabled = true;
+
+    function getAudioContext() {
+      if (!audioContext) {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtx) audioContext = new AudioCtx();
+      }
+      if (audioContext && audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      return audioContext;
+    }
+
+    function playCyberSound(type) {
+      if (!audioEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+
+        if (type === 'click') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(800, now);
+          osc.frequency.exponentialRampToValueAtTime(1400, now + 0.04);
+          gain.gain.setValueAtTime(0.06, now);
+          gain.gain.linearRampToValueAtTime(0.001, now + 0.04);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.04);
+        } else if (type === 'open') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(260, now);
+          osc.frequency.exponentialRampToValueAtTime(620, now + 0.18);
+          gain.gain.setValueAtTime(0.09, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.22);
+        } else if (type === 'beep') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(1200, now);
+          gain.gain.setValueAtTime(0.05, now);
+          gain.gain.linearRampToValueAtTime(0.001, now + 0.06);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.06);
+        }
+      } catch (e) {
+        console.warn('Audio error:', e);
+      }
+    }
+
+    const btnAudioToggle = document.getElementById('btn-audio-toggle');
+    btnAudioToggle.addEventListener('click', () => {
+      audioEnabled = !audioEnabled;
+      btnAudioToggle.textContent = audioEnabled ? '🔊 FX: ON' : '🔇 FX: OFF';
+      btnAudioToggle.classList.toggle('active', audioEnabled);
+      if (audioEnabled) playCyberSound('beep');
+    });
+
+    /* ========================================================
+       2. THREE.JS 3D WAVE FLOW ANIMATION ENGINE
+       Silky, tasteful green wave with deep obsidian contrast
+       ======================================================== */
+    const container = document.getElementById('wave-canvas-container');
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x000000, 0.065);
+
+    const camera = new THREE.PerspectiveCamera(48, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, -1.2, 4.4);
+    camera.lookAt(0, 0, 0);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 1);
+    container.appendChild(renderer.domElement);
+
+    // Texture Loader
+    const textureLoader = new THREE.TextureLoader();
+    let waveTexture = textureLoader.load(WAVE_TEXTURE_DATA_URI, () => {
+      renderer.render(scene, camera);
+    });
+    waveTexture.wrapS = THREE.MirroredRepeatWrapping;
+    waveTexture.wrapT = THREE.MirroredRepeatWrapping;
+
+    // Custom GLSL Shaders with refined, non-overpowering green highlights
+    const waveVertexShader = `
+      uniform float uTime;
+      uniform float uWaveSpeed;
+      uniform float uWaveHeight;
+      uniform vec2 uMouse;
+      varying vec2 vUv;
+      varying float vElevation;
+
+      void main() {
+        vUv = uv;
+        vec3 pos = position;
+
+        float wave1 = sin(pos.x * 0.85 + uTime * uWaveSpeed * 0.9) * cos(pos.y * 0.65 + uTime * uWaveSpeed * 0.7);
+        float wave2 = sin(pos.x * 1.5 - uTime * uWaveSpeed * 1.05 + pos.y * 1.1) * 0.35;
+        float wave3 = cos((pos.x + pos.y) * 2.0 + uTime * uWaveSpeed * 1.25) * 0.2;
+        float wave4 = sin(length(pos.xy) * 1.4 - uTime * uWaveSpeed * 0.8) * 0.22;
+
+        vec2 mWorld = (uMouse - 0.5) * vec2(9.0, 5.5);
+        float distToMouse = distance(pos.xy, mWorld);
+        float mouseRipple = sin(distToMouse * 5.0 - uTime * 4.0) * exp(-distToMouse * 0.75) * 0.4;
+
+        float totalElevation = (wave1 + wave2 + wave3 + wave4 + mouseRipple) * uWaveHeight;
+        pos.z += totalElevation;
+        vElevation = totalElevation;
+
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+      }
+    `;
+
+    const waveFragmentShader = `
+      uniform sampler2D uTexture;
+      uniform float uTime;
+      uniform vec3 uNeonColor;
+      uniform float uWireframe;
+      varying vec2 vUv;
+      varying float vElevation;
+
+      void main() {
+        vec2 flowUv = vUv;
+        flowUv.x += sin(vUv.y * 7.5 + uTime * 0.35) * 0.03;
+        flowUv.y += cos(vUv.x * 6.5 + uTime * 0.3) * 0.03;
+
+        vec4 baseTex = texture2D(uTexture, flowUv);
+
+        float r = texture2D(uTexture, flowUv + vec2(0.005, 0.0)).r;
+        float g = texture2D(uTexture, flowUv).g;
+        float b = texture2D(uTexture, flowUv - vec2(0.005, 0.0)).b;
+        vec3 chromatic = vec3(r * 0.45, g * 1.15, b * 0.55);
+
+        // Tasteful refined peak luminescence
+        float crest = smoothstep(-0.2, 0.75, vElevation);
+        vec3 litColor = mix(baseTex.rgb, chromatic, 0.3) + uNeonColor * crest * 0.25;
+
+        vec2 centeredUv = vUv * 2.0 - 1.0;
+        float vignette = 1.0 - smoothstep(0.48, 0.98, length(centeredUv));
+
+        vec3 finalColor = litColor * vignette;
+
+        gl_FragColor = vec4(finalColor, vignette * 0.92);
+      }
+    `;
+
+    const waveGeometry = new THREE.PlaneGeometry(9.0, 5.8, 160, 160);
+    const waveMaterial = new THREE.ShaderMaterial({
+      vertexShader: waveVertexShader,
+      fragmentShader: waveFragmentShader,
+      uniforms: {
+        uTexture: { value: waveTexture },
+        uTime: { value: 0 },
+        uWaveSpeed: { value: 1.0 },
+        uWaveHeight: { value: 0.45 },
+        uMouse: { value: new THREE.Vector2(0.5, 0.5) },
+        uNeonColor: { value: new THREE.Vector3(0.0, 1.0, 0.4) },
+        uWireframe: { value: 0.0 }
+      },
+      wireframe: false,
+      transparent: true,
+      side: THREE.DoubleSide
+    });
+
+    const waveMesh = new THREE.Mesh(waveGeometry, waveMaterial);
+    waveMesh.rotation.x = -0.42;
+    waveMesh.rotation.z = 0.06;
+    scene.add(waveMesh);
+
+    // 3D Floating Particles Field
+    const particleCount = 450;
+    const particleGeometry = new THREE.BufferGeometry();
+    const particlePositions = new Float32Array(particleCount * 3);
+
+    for (let i = 0; i < particleCount * 3; i += 3) {
+      particlePositions[i] = (Math.random() - 0.5) * 12;
+      particlePositions[i + 1] = (Math.random() - 0.5) * 8;
+      particlePositions[i + 2] = (Math.random() - 0.5) * 5;
+    }
+
+    particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+
+    const particleCanvas = document.createElement('canvas');
+    particleCanvas.width = 32;
+    particleCanvas.height = 32;
+    const pctx = particleCanvas.getContext('2d');
+    const grad = pctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+    grad.addColorStop(0, 'rgba(0, 255, 102, 0.8)');
+    grad.addColorStop(0.3, 'rgba(0, 255, 102, 0.4)');
+    grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    pctx.fillStyle = grad;
+    pctx.fillRect(0, 0, 32, 32);
+
+    const pTexture = new THREE.CanvasTexture(particleCanvas);
+    const particleMaterial = new THREE.PointsMaterial({
+      size: 0.065,
+      map: pTexture,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+
+    const particlePoints = new THREE.Points(particleGeometry, particleMaterial);
+    scene.add(particlePoints);
+
+    // Mouse & Parallax tracking
+    let mouse = { x: 0.5, y: 0.5 };
+    let targetCameraX = 0;
+    let targetCameraY = -1.2;
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX / window.innerWidth;
+      mouse.y = 1.0 - (e.clientY / window.innerHeight);
+
+      targetCameraX = (mouse.x - 0.5) * 0.9;
+      targetCameraY = -1.2 + (mouse.y - 0.5) * 0.6;
+    });
+
+    let scrollY = 0;
+    window.addEventListener('scroll', () => {
+      scrollY = window.scrollY;
+    });
+
+    // Wave HUD Controls
+    const sliderSpeed = document.getElementById('slider-wave-speed');
+    const sliderHeight = document.getElementById('slider-wave-height');
+    const btnWireframe = document.getElementById('btn-toggle-wireframe');
+    const btnResetCam = document.getElementById('btn-reset-cam');
+
+    sliderSpeed.addEventListener('input', (e) => {
+      waveMaterial.uniforms.uWaveSpeed.value = parseFloat(e.target.value);
+    });
+
+    sliderHeight.addEventListener('input', (e) => {
+      waveMaterial.uniforms.uWaveHeight.value = parseFloat(e.target.value);
+    });
+
+    let isWireframe = false;
+    btnWireframe.addEventListener('click', () => {
+      isWireframe = !isWireframe;
+      waveMaterial.wireframe = isWireframe;
+      btnWireframe.classList.toggle('active', isWireframe);
+      btnWireframe.textContent = isWireframe ? 'SOLID' : 'WIREFRAME';
+      playCyberSound('click');
+    });
+
+    btnResetCam.addEventListener('click', () => {
+      targetCameraX = 0;
+      targetCameraY = -1.2;
+      sliderSpeed.value = 1.0;
+      sliderHeight.value = 0.45;
+      waveMaterial.uniforms.uWaveSpeed.value = 1.0;
+      waveMaterial.uniforms.uWaveHeight.value = 0.45;
+      if (isWireframe) {
+        isWireframe = false;
+        waveMaterial.wireframe = false;
+        btnWireframe.classList.remove('active');
+        btnWireframe.textContent = 'WIREFRAME';
+      }
+      playCyberSound('beep');
+    });
+
+    // Animation Loop
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const elapsedTime = clock.getElapsedTime();
+
+      waveMaterial.uniforms.uTime.value = elapsedTime;
+      waveMaterial.uniforms.uMouse.value.lerp(new THREE.Vector2(mouse.x, mouse.y), 0.08);
+
+      const scrollOffset = scrollY * 0.0008;
+      camera.position.x += (targetCameraX - camera.position.x) * 0.04;
+      camera.position.y += ((targetCameraY - scrollOffset) - camera.position.y) * 0.04;
+      camera.lookAt(0, -scrollOffset * 0.4, 0);
+
+      const positions = particleGeometry.attributes.position.array;
+      for (let i = 1; i < particleCount * 3; i += 3) {
+        positions[i] += 0.0018;
+        if (positions[i] > 4) positions[i] = -4;
+      }
+      particleGeometry.attributes.position.needsUpdate = true;
+      particlePoints.rotation.y = elapsedTime * 0.018;
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    /* ========================================================
+       3. TYPED ROLES ROTATOR
+       ======================================================== */
+    const roles = [
+      "Student @ FAST-NUCES (Class of 2029)",
+      "Electrical Engineering Undergraduate",
+      "NASA Space Apps Galactic Problem Solver",
+      "Google Developer Group on Campus Member",
+      "Procom Member & Community Volunteer"
+    ];
+    let roleIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typedTextElem = document.getElementById('typed-role-text');
+
+    function typeRoles() {
+      const currentRole = roles[roleIndex];
+      if (isDeleting) {
+        typedTextElem.textContent = currentRole.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        typedTextElem.textContent = currentRole.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      let speed = isDeleting ? 30 : 65;
+
+      if (!isDeleting && charIndex === currentRole.length) {
+        speed = 2200;
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        roleIndex = (roleIndex + 1) % roles.length;
+        speed = 400;
+      }
+
+      setTimeout(typeRoles, speed);
+    }
+    typeRoles();
+
+    /* ========================================================
+       4. CERTIFICATES & BADGES VAULT (Exact 5 user credentials)
+       ======================================================== */
+    const credentialsData = [
+      {
+        id: "cert-1",
+        title: "Google Developer Group on Campus Member",
+        issuer: "Google // GDG on Campus",
+        category: "innovation",
+        date: "Verified",
+        credId: "GDG-CAMPUS-FAST-WAR",
+        icon: "🌐",
+        skills: ["Developer Outreach", "Google Technologies", "Campus Innovation", "Technical Community"],
+        desc: "Official member of the Google Developer Group on Campus, collaborating with peer developers, attending tech summits, and advancing Google developer ecosystem initiatives."
+      },
+      {
+        id: "cert-2",
+        title: "Galactic Problem Solver",
+        issuer: "NASA International Space Apps Challenge",
+        category: "innovation",
+        date: "Verified",
+        credId: "NASA-SPACEAPPS-GPS-WAR",
+        icon: "🚀",
+        skills: ["Space Telemetry", "Collaborative Problem Solving", "Rapid Innovation", "Global Hackathon"],
+        desc: "Awarded Galactic Problem Solver in the prestigious NASA International Space Apps Challenge for creative, data-driven solutions tackling real-world Earth and space challenges."
+      },
+      {
+        id: "cert-3",
+        title: "Write Effective Prompts to Achieve Optimal Results",
+        issuer: "Microsoft",
+        category: "ai",
+        date: "Verified",
+        credId: "MS-PROMPT-OPT-WAR",
+        icon: "⚡",
+        skills: ["Prompt Engineering", "Context Optimization", "Generative AI", "LLM Interaction"],
+        desc: "Official Microsoft certification validating proficiency in prompt engineering strategies, structured framing, and eliciting optimal generative AI problem solutions."
+      },
+      {
+        id: "cert-4",
+        title: "AI for Business Professionals",
+        issuer: "HP LIFE",
+        category: "ai",
+        date: "Verified",
+        credId: "HPLIFE-AI-BIZ-WAR",
+        icon: "🤖",
+        skills: ["AI Fundamentals", "Business Automation", "Strategic Decision Making", "Digital Workflows"],
+        desc: "HP LIFE verified certification demonstrating understanding of artificial intelligence applications in professional environments, data-driven optimization, and business transformation."
+      },
+      {
+        id: "cert-5",
+        title: "CAD Module of Ignite X",
+        issuer: "ASME NEDUET Student Section",
+        category: "engineering",
+        date: "Verified",
+        credId: "ASME-IGNITEX-CAD-WAR",
+        icon: "⚙️",
+        skills: ["Computer-Aided Design (CAD)", "3D Geometric Modeling", "Engineering Drafting", "Technical Schematics"],
+        desc: "Successfully completed the specialized CAD engineering module in the Ignite X workshop series conducted by the American Society of Mechanical Engineers (ASME) NEDUET Student Section."
+      }
+    ];
+
+    const certsContainer = document.getElementById('certs-cards-container');
+
+    function renderCertificates(filter = 'all') {
+      certsContainer.innerHTML = '';
+      const filtered = filter === 'all' 
+        ? credentialsData 
+        : credentialsData.filter(c => c.category === filter);
+
+      filtered.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'cert-card';
+        card.innerHTML = `
+          <div>
+            <div class="cert-badge-icon">${c.icon}</div>
+            <h4 class="cert-card-title">${c.title}</h4>
+            <div class="cert-issuer">${c.issuer}</div>
+            <p class="cert-meta">${c.desc}</p>
+            
+            <div class="cert-id-tag">
+              <span>VERIFIED: ${c.credId}</span>
+              <button class="btn-copy-id" data-id="${c.credId}" title="Copy ID">COPY</button>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 1.2rem;">
+              ${c.skills.map(s => `<span class="tech-pill" style="font-size: 0.68rem; margin-top: 0;">${s}</span>`).join('')}
+            </div>
+          </div>
+
+          <button class="btn-inspect-cert" data-cert='${JSON.stringify(c)}'>
+            INSPECT CERTIFICATE // PREVIEW
+          </button>
+        `;
+        certsContainer.appendChild(card);
+      });
+
+      document.querySelectorAll('.btn-copy-id').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const id = btn.getAttribute('data-id');
+          navigator.clipboard.writeText(id).then(() => {
+            showToast(`Copied Credential ID: ${id}`);
+            playCyberSound('beep');
+          });
+        });
+      });
+
+      document.querySelectorAll('.btn-inspect-cert').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const cert = JSON.parse(btn.getAttribute('data-cert'));
+          openDiplomaPreview(cert);
+          playCyberSound('open');
+        });
+      });
+    }
+
+    renderCertificates('all');
+
+    const filterBtns = document.querySelectorAll('.cert-filter-btn');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderCertificates(btn.getAttribute('data-filter'));
+        playCyberSound('click');
+      });
+    });
+
+    const certsModal = document.getElementById('certs-modal');
+    const btnHeaderCerts = document.getElementById('btn-header-open-certs');
+    const btnHeroCerts = document.getElementById('btn-hero-open-certs');
+    const btnDockCerts = document.getElementById('btn-dock-open-certs');
+    const btnSectionCerts = document.getElementById('btn-section-open-certs');
+    const btnCloseCerts = document.getElementById('btn-close-certs');
+
+    function openCertsVault() {
+      certsModal.classList.add('active');
+      playCyberSound('open');
+    }
+
+    function closeCertsVault() {
+      certsModal.classList.remove('active');
+      playCyberSound('click');
+    }
+
+    btnHeaderCerts.addEventListener('click', openCertsVault);
+    btnHeroCerts.addEventListener('click', openCertsVault);
+    btnDockCerts.addEventListener('click', openCertsVault);
+    if (btnSectionCerts) btnSectionCerts.addEventListener('click', openCertsVault);
+    btnCloseCerts.addEventListener('click', closeCertsVault);
+
+    certsModal.addEventListener('click', (e) => {
+      if (e.target === certsModal) closeCertsVault();
+    });
+
+    const previewModal = document.getElementById('cert-preview-modal');
+    const btnClosePreview = document.getElementById('btn-close-preview');
+    const diplomaTitle = document.getElementById('diploma-title');
+    const diplomaIssuer = document.getElementById('diploma-issuer');
+    const diplomaId = document.getElementById('diploma-id');
+    const btnDiplomaCopy = document.getElementById('btn-diploma-copy');
+    let currentCertId = '';
+
+    function openDiplomaPreview(cert) {
+      currentCertId = cert.credId;
+      diplomaTitle.textContent = cert.title;
+      diplomaIssuer.textContent = cert.issuer;
+      diplomaId.textContent = cert.credId;
+      previewModal.classList.add('active');
+    }
+
+    function closeDiplomaPreview() {
+      previewModal.classList.remove('active');
+      playCyberSound('click');
+    }
+
+    btnClosePreview.addEventListener('click', closeDiplomaPreview);
+    previewModal.addEventListener('click', (e) => {
+      if (e.target === previewModal) closeDiplomaPreview();
+    });
+
+    btnDiplomaCopy.addEventListener('click', () => {
+      navigator.clipboard.writeText(`https://verify.wasif-rizvi.dev/credential/${currentCertId}`).then(() => {
+        showToast('Verification URL copied to clipboard!');
+        playCyberSound('beep');
+      });
+    });
+
+    function showToast(text) {
+      const toast = document.getElementById('toast');
+      const toastText = document.getElementById('toast-text');
+      toastText.textContent = text;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3200);
+    }
+
+    /* ========================================================
+       5. INTERACTIVE CYBER TERMINAL (WASIF-OS)
+       ======================================================== */
+    const terminalBody = document.getElementById('terminal-body');
+    const terminalInput = document.getElementById('terminal-input');
+
+    function appendTerminalLine(text, isPrompt = false, color = '#cbd5e1') {
+      const line = document.createElement('div');
+      line.className = 'terminal-line';
+      if (isPrompt) {
+        line.innerHTML = `<span class="terminal-prompt">wasif@fast:~$</span> ${text}`;
+      } else {
+        line.style.color = color;
+        line.innerHTML = text;
+      }
+      terminalBody.appendChild(line);
+      terminalBody.scrollTop = terminalBody.scrollHeight;
+    }
+
+    function executeCommand(rawCmd) {
+      const cmd = rawCmd.trim().toLowerCase();
+      if (!cmd) return;
+      appendTerminalLine(rawCmd, true);
+      playCyberSound('click');
+
+      switch (cmd) {
+        case 'help':
+          appendTerminalLine('AVAILABLE COMMANDS:', false, '#ffffff');
+          appendTerminalLine('&nbsp;&nbsp;• <strong style="color:var(--neon-green);">certs</strong>: Launch the full Certificates & Badges Vault (5 Credentials)');
+          appendTerminalLine('&nbsp;&nbsp;• <strong style="color:var(--neon-green);">education</strong>: Display academic degrees & universities');
+          appendTerminalLine('&nbsp;&nbsp;• <strong style="color:var(--neon-green);">experience</strong>: List societies & volunteer leadership');
+          appendTerminalLine('&nbsp;&nbsp;• <strong style="color:var(--neon-green);">bio</strong>: Display background story');
+          appendTerminalLine('&nbsp;&nbsp;• <strong style="color:var(--neon-green);">matrix</strong>: Trigger visual cyber flow pulse');
+          appendTerminalLine('&nbsp;&nbsp;• <strong style="color:var(--neon-green);">contact</strong>: Show direct transmission channels');
+          appendTerminalLine('&nbsp;&nbsp;• <strong style="color:var(--neon-green);">clear</strong>: Clear terminal history');
+          break;
+
+        case 'certs':
+        case 'badges':
+          appendTerminalLine('Opening Certificates & Badges Vault (5 Credentials)...', false, 'var(--neon-green)');
+          setTimeout(() => {
+            openCertsVault();
+          }, 300);
+          break;
+
+        case 'education':
+          appendTerminalLine('ACADEMIC RECORD:', false, '#ffffff');
+          appendTerminalLine('• <strong>FAST-NUCES (2025–2029)</strong>: Bachelor of Science in Electrical Engineering');
+          appendTerminalLine('• <strong>DJ Sindh Govt Science College (2023–2025)</strong>: Intermediate Pre-Engineering');
+          break;
+
+        case 'experience':
+          appendTerminalLine('LEADERSHIP & VOLUNTEERING:', false, '#ffffff');
+          appendTerminalLine('• <strong>Procom (FAST-NUCES)</strong>: Member (Flagship Computing & Tech Event)');
+          appendTerminalLine('• <strong>Circle Social Foundation</strong>: Volunteer (Community & Welfare Initiatives)');
+          appendTerminalLine('• <strong>Shaheen Public Secondary School</strong>: Volunteer Teacher (Science & Math)');
+          break;
+
+        case 'bio':
+          appendTerminalLine('SYED WASIF ABBAS RIZVI', false, '#ffffff');
+          appendTerminalLine('Electrical Engineering Student at FAST-NUCES (Class of 2029).');
+          appendTerminalLine('Certified in Prompt Engineering by Microsoft, AI for Business by HP LIFE, and CAD by ASME NEDUET.');
+          appendTerminalLine('Honored as Galactic Problem Solver by the NASA International Space Apps Challenge.');
+          break;
+
+        case 'matrix':
+          appendTerminalLine('Triggering high-energy wave excitation...', false, 'var(--neon-green)');
+          waveMaterial.uniforms.uWaveSpeed.value = 2.5;
+          waveMaterial.uniforms.uWaveHeight.value = 0.85;
+          playCyberSound('open');
+          setTimeout(() => {
+            waveMaterial.uniforms.uWaveSpeed.value = 1.0;
+            waveMaterial.uniforms.uWaveHeight.value = 0.45;
+          }, 4000);
+          break;
+
+        case 'contact':
+          appendTerminalLine('DIRECT CONTACT INFO:', false, '#ffffff');
+          appendTerminalLine('• Email: <a href="mailto:wasifabbas730@gmail.com" style="color:var(--neon-green);">wasifabbas730@gmail.com</a>');
+          appendTerminalLine('• LinkedIn: <a href="https://www.linkedin.com/in/syed-wasif-abbas-rizvi" target="_blank" style="color:var(--neon-green);">linkedin.com/in/syed-wasif-abbas-rizvi</a>');
+          appendTerminalLine('• GitHub: <a href="https://github.com/me50/wasifabbas730-crypto" target="_blank" style="color:var(--neon-green);">github.com/wasifabbas730-crypto</a>');
+          break;
+
+        case 'clear':
+          terminalBody.innerHTML = '';
+          break;
+
+        default:
+          appendTerminalLine(`Command not recognized: '${cmd}'. Type 'help' for valid commands.`, false, '#f87171');
+      }
+    }
+
+    terminalInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        executeCommand(terminalInput.value);
+        terminalInput.value = '';
+      }
+    });
+
+    document.querySelectorAll('.terminal-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const cmd = chip.getAttribute('data-cmd');
+        terminalInput.value = cmd;
+        executeCommand(cmd);
+        terminalInput.value = '';
+      });
+    });
+
+    // Mobile Navigation Toggle
+    const btnMobileToggle = document.getElementById('btn-mobile-toggle');
+    btnMobileToggle.addEventListener('click', () => {
+      openCertsVault();
+    });
+
+    // Global keyboard shortcut: Press 'C' to open Certificates Vault
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'c' || e.key === 'C') {
+        if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+          openCertsVault();
+        }
+      }
+      if (e.key === 'Escape') {
+        closeCertsVault();
+        closeDiplomaPreview();
+      }
+    });
+  </script>
+</body>
+</html>

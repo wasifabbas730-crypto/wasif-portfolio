@@ -1,0 +1,17 @@
+{
+  "name": "syed-wasif-abbas-rizvi-portfolio",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Futuristic Cyber & Abstract 3D Tech Portfolio for Syed Wasif Abbas Rizvi",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "three": "^0.160.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
